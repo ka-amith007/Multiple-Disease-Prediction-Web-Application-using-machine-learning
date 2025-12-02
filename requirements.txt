@@ -1,0 +1,15 @@
+﻿numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+streamlit
+joblib
+Pillow
+requests
+protobuf
+setuptools
+wheel
+xgboost
+plotly
+streamlit-option-menu
