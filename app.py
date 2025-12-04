@@ -24,6 +24,28 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Add mobile app icon support with custom HTML
+st.markdown("""
+    <head>
+        <!-- PWA Manifest -->
+        <link rel="manifest" href="manifest.json">
+        
+        <!-- Mobile App Icons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="app/static/assets/logo.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="app/static/assets/favicon.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="app/static/assets/favicon.png">
+        
+        <!-- PWA Support -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="Disease Prediction">
+        
+        <!-- Theme Color -->
+        <meta name="theme-color" content="#2E86DE">
+    </head>
+""", unsafe_allow_html=True)
+
 # loading the models
 diabetes_model = joblib.load("models/diabetes_model.sav")
 heart_model = joblib.load("models/heart_disease_model.sav")
