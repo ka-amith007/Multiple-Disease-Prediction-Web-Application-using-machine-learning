@@ -17,7 +17,13 @@
 
 ---
 
-## 🎯 Project Overview
+## � Live Demo
+
+**Access the live application here:** [https://multiple-disease-predictor12.streamlit.app/](https://multiple-disease-predictor12.streamlit.app/)
+
+---
+
+## �🎯 Project Overview
 
 The **Multiple Disease Prediction Web Application** is an advanced healthcare solution that leverages machine learning algorithms to predict the likelihood of multiple diseases based on user-provided medical parameters. This system aims to assist in early disease detection and provide preliminary health insights to users.
 
