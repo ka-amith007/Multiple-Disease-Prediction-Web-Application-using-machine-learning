@@ -1,6 +1,6 @@
-
-import xgboost as xgb
+import joblib
 import pandas as pd
+
 
 class DiseaseModel:
 
@@ -8,27 +8,36 @@ class DiseaseModel:
         self.all_symptoms = None
         self.symptoms = None
         self.pred_disease = None
-        self.model = xgb.XGBClassifier()
-        self.diseases = self.disease_list('data/dataset.csv')
+        self.model = None
+        self.diseases = None
 
-    def load_xgboost(self, model_path):
-        self.model.load_model(model_path)
+        # Load symptom feature list from the same dataset used at training time.
+        # This keeps feature ordering consistent across Windows/Linux.
+        df = pd.read_csv('data/clean_dataset.tsv', sep='\t')
+        self.all_symptoms = df.columns[:-1]
 
-    def save_xgboost(self, model_path):
-        self.model.save_model(model_path)
+    def load_model(self, model_path: str):
+        """Load the general disease model (scikit-learn) from a joblib file."""
+        self.model = joblib.load(model_path)
+        self.diseases = list(getattr(self.model, 'classes_', []))
 
     def predict(self, X):
+        if self.model is None:
+            raise RuntimeError('General disease model is not loaded')
+
         self.symptoms = X
-        disease_pred_idx = self.model.predict(self.symptoms)
-        self.pred_disease = self.diseases[disease_pred_idx].values[0]
+        disease_pred = self.model.predict(self.symptoms)[0]
+        self.pred_disease = str(disease_pred)
+
         disease_probability_array = self.model.predict_proba(self.symptoms)
-        disease_probability = disease_probability_array[0, disease_pred_idx[0]]
+        class_index = list(self.model.classes_).index(disease_pred)
+        disease_probability = float(disease_probability_array[0, class_index])
         return self.pred_disease, disease_probability
 
     
     def describe_disease(self, disease_name):
 
-        if disease_name not in self.diseases:
+        if self.diseases is not None and disease_name not in self.diseases:
             return "That disease is not contemplated in this model"
         
         # Read disease dataframe
@@ -46,7 +55,7 @@ class DiseaseModel:
     
     def disease_precautions(self, disease_name):
 
-        if disease_name not in self.diseases:
+        if self.diseases is not None and disease_name not in self.diseases:
             return "That disease is not contemplated in this model"
 
         # Read precautions dataframe
@@ -62,16 +71,8 @@ class DiseaseModel:
 
         return self.disease_precautions(self.pred_disease)
 
-    def disease_list(self, kaggle_dataset):
+    def disease_list(self):
 
         df = pd.read_csv('data/clean_dataset.tsv', sep='\t')
-        # Preprocessing
-        y_data = df.iloc[:,-1]
-        X_data = df.iloc[:,:-1]
-
-        self.all_symptoms = X_data.columns
-
-        # Convert y to categorical values
-        y_data = y_data.astype('category')
-        
-        return y_data.cat.categories
+        y_data = df.iloc[:, -1].astype('category')
+        return list(y_data.cat.categories)

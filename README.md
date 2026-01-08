@@ -74,7 +74,7 @@ This project addresses these challenges by providing an **accessible, user-frien
 
 | Disease | Input Parameters | Model Type |
 |---------|-----------------|------------|
-| **General Disease** | Symptoms selection | XGBoost Classifier |
+| **General Disease** | Symptoms selection | Scikit-learn Classifier |
 | **Diabetes** | Pregnancies, Glucose, BP, Insulin, BMI, Age, etc. | SVM/Random Forest |
 | **Heart Disease** | Age, Sex, Chest Pain Type, BP, Cholesterol, ECG, etc. | Logistic Regression/SVM |
 | **Parkinson's** | Voice measurements (MDVP, Jitter, Shimmer, etc.) | SVM |
@@ -96,7 +96,6 @@ This project addresses these challenges by providing an **accessible, user-frien
 ### **Backend & ML**
 - **Python 3.x** - Core programming language
 - **Scikit-learn** - Machine learning algorithms
-- **XGBoost** - Gradient boosting framework
 - **Pandas** - Data manipulation
 - **NumPy** - Numerical computing
 - **Joblib** - Model serialization
@@ -105,7 +104,6 @@ This project addresses these challenges by providing an **accessible, user-frien
 - Support Vector Machine (SVM)
 - Random Forest Classifier
 - Logistic Regression
-- XGBoost Classifier
 - Gradient Boosting Classifier
 
 ---
@@ -161,7 +159,7 @@ This project addresses these challenges by providing an **accessible, user-frien
 ## 🤖 Machine Learning Models
 
 ### **1. General Disease Prediction**
-- **Algorithm**: XGBoost Classifier
+- **Algorithm**: Scikit-learn Classifier
 - **Features**: 132 symptoms
 - **Output**: Disease name with probability score
 - **Accuracy**: ~95%
@@ -259,7 +257,7 @@ pip install -r requirements.txt
 
 ### **Step 4: Verify Installation**
 ```bash
-python -c "import streamlit; import sklearn; import xgboost; print('All packages installed successfully!')"
+python -c "import streamlit; import sklearn; print('All packages installed successfully!')"
 ```
 
 ---
@@ -317,7 +315,7 @@ Multiple-Disease-Prediction-Webapp-main/
 │   └── liver_model.sav
 │
 ├── model/                          # XGBoost model
-│   └── xgboost_model.json
+│   └── disease_model.joblib
 │
 ├── 2022/                           # Disease data files
 │   ├── dataset.csv
@@ -409,7 +407,7 @@ Multiple-Disease-Prediction-Webapp-main/
 - UCI Machine Learning Repository for datasets
 - Kaggle community for additional datasets
 - Streamlit for the amazing web framework
-- Scikit-learn and XGBoost developers
+- Scikit-learn developers
 - Stack Overflow community for technical support
 
 ### **Data Sources**
@@ -423,7 +421,7 @@ Multiple-Disease-Prediction-Webapp-main/
 3. A. Sivasangari, Baddigam Jaya Krishna Reddy, Annamareddy Kiran, P. Ajitha, "Diagnosis of Liver Disease using Machine Learning Models", 2020 Fourth International Conference on I-SMAC (IoT in Social, Mobile, Analytics and Cloud)
 4. Scikit-learn Documentation: https://scikit-learn.org/
 5. Streamlit Documentation: https://docs.streamlit.io/
-6. XGBoost Documentation: https://xgboost.readthedocs.io/
+6. Scikit-learn Documentation: https://scikit-learn.org/
 
 ---
 

@@ -103,7 +103,7 @@ with st.sidebar:
 if selected == 'Disease Prediction': 
     # Create disease class and load ML model
     disease_model = DiseaseModel()
-    disease_model.load_xgboost('model/xgboost_model.json')
+    disease_model.load_model('model/disease_model.joblib')
 
     # Title
     st.write('# Disease Prediction using Machine Learning')
@@ -112,7 +112,7 @@ if selected == 'Disease Prediction':
 
     X = prepare_symptoms_array(symptoms)
 
-    # Trigger XGBoost model
+    # Trigger general disease model
     if st.button('Predict'): 
         # Run the model with the python script
         
