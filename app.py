@@ -5,6 +5,23 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import pandas as pd
 from streamlit_option_menu import option_menu
+
+# Page config MUST be the first Streamlit call
+st.set_page_config(
+    page_title="Multiple Disease Prediction System",
+    page_icon="assets/app-icon-192.png",
+    layout="wide",
+)
+
+# Optional: supply explicit icon sizes for better home-screen icons
+st.markdown(
+    """
+    <link rel="icon" href="assets/app-icon-192.png" sizes="192x192" />
+    <link rel="icon" href="assets/app-icon-512.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="assets/app-icon-192.png" />
+    """,
+    unsafe_allow_html=True,
+)
 import pickle
 from PIL import Image
 import numpy as np
@@ -28,6 +45,39 @@ hepatitis_model = joblib.load('models/hepititisc_model.sav')
 
 
 liver_model = joblib.load('models/liver_model.sav')
+
+# --- Compatibility fix for scikit-learn DecisionTree/RandomForest pickles ---
+# Some models saved with older scikit-learn versions may lack the
+# `monotonic_cst` attribute expected by newer versions during prediction.
+# To ensure robust execution across environments, set this attribute to None
+# on tree estimators when missing.
+def _ensure_monotonic_attr(model):
+    try:
+        from sklearn.tree import DecisionTreeClassifier
+        from sklearn.ensemble import RandomForestClassifier
+    except Exception:
+        return
+
+    try:
+        # Single tree
+        if isinstance(model, DecisionTreeClassifier):
+            if not hasattr(model, 'monotonic_cst'):
+                model.monotonic_cst = None
+
+        # RandomForest with multiple trees
+        if isinstance(model, RandomForestClassifier):
+            estimators = getattr(model, 'estimators_', [])
+            for est in estimators:
+                if not hasattr(est, 'monotonic_cst'):
+                    est.monotonic_cst = None
+    except Exception:
+        # Best-effort safety: do not interrupt app if patching fails
+        pass
+
+# Apply compatibility fix to any tree-based models
+_ensure_monotonic_attr(hepatitis_model)
+_ensure_monotonic_attr(liver_model)
+_ensure_monotonic_attr(lung_cancer_model)
 
 
 
