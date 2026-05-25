@@ -1,0 +1,15 @@
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Streamlit cache (optional)
+.streamlit/secrets.toml
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
